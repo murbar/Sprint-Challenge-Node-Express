@@ -47,10 +47,19 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    res.status(200).json();
+    const { body: actionData } = req;
+    const valid = await isValidAction(actionData);
+    if (!valid) {
+      res
+        .status(400)
+        .json({ error: 'Action must have description, notes, and a valid project ID.' });
+    } else {
+      const newAction = await db.insert(actionData);
+      res.status(200).json(newAction);
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json();
+    res.status(500).json({ error: 'Cannot save action.' });
   }
 });
 
