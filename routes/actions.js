@@ -65,10 +65,23 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    res.status(200).json();
+    const { id } = req.params;
+    const { body: actionData } = req;
+    const valid = await isValidAction(actionData);
+    if (!valid) {
+      res
+        .status(400)
+        .json({ error: 'Action must have description, notes, and a valid project ID.' });
+    } else {
+      const updatedAction = await db.update(id, actionData);
+      if (!updatedAction) {
+        res.status(404).json({ error: 'No action with that ID.' });
+      }
+      res.status(200).json(updatedAction);
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json();
+    res.status(500).json({ error: 'Cannot update action.' });
   }
 });
 
