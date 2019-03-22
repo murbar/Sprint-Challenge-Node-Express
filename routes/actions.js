@@ -87,10 +87,16 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    res.status(200).json();
+    const { id } = req.params;
+    const deletedCount = await db.remove(id);
+    if (!deletedCount) {
+      res.status(404).json({ error: 'No action with that ID.' });
+    } else {
+      res.status(200).json({ message: `Action with ID ${id} deleted.` });
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json();
+    res.status(500).json({ error: 'Cannot delete action.' });
   }
 });
 
