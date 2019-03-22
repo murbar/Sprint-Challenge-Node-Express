@@ -34,10 +34,16 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    res.status(200).json();
+    const { body: projectData } = req;
+    if (!isValidProject(projectData)) {
+      res.status(400).json({ error: 'Project must have name and description.' });
+    } else {
+      const newProject = await db.insert(projectData);
+      res.status(200).json(newProject);
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json();
+    res.status(500).json({ error: 'Could not save project.' });
   }
 });
 
