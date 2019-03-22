@@ -26,21 +26,12 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-
-    // this crashes the app if you try to get an id that doesn't exist
-    // looks like oversight on Luis' part
-    // TypeError: Cannot set property 'actions' of undefined
-    // at /Users/joel/Lambda/repos/week11/Sprint-Challenge-Node-Express/data/helpers/projectModel.js:15:25
-
     const projectById = await db.get(id);
-    res.status(200).json(projectById);
-
-    // so we can't return a 404 if the Id is invalid
-    // if (!projectById) {
-    //   res.status(200).json(projectById);
-    // } else {
-    //   res.status(404).json({ error: 'No project with that ID.' });
-    // }
+    if (!projectById) {
+      res.status(404).json({ error: 'No project with that ID.' });
+    } else {
+      res.status(200).json(projectById);
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Could not get project.' });
