@@ -9,6 +9,16 @@ const router = express.Router();
 // description  string	  required
 // completed	  boolean	  not required
 
+router.get('/', async (req, res) => {
+  try {
+    const allProjects = await db.get();
+    res.status(200).json(allProjects);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Could not get projects.' });
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     res.status(200).json();
