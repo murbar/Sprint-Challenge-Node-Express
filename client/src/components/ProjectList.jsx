@@ -8,7 +8,9 @@ const ProjectsList = ({ projects }) => {
       {projects.length ? (
         <ul className="users-list">
           {projects.map(project => (
-            <li key={project.id}>{project.name}</li>
+            <li key={project.id}>
+              {project.name} <Link to={`/projects/${project.id}`}>View project details</Link>
+            </li>
           ))}
         </ul>
       ) : (

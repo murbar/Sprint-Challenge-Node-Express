@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Router } from '@reach/router';
 import axios from 'axios';
-import ProjectsList from './components/ProjectList';
+import ProjectList from './components/ProjectList';
+import ProjectDetails from './components/ProjectDetails';
 
 const projectsEndpoint = 'http://localhost:4000/api/projects';
 
@@ -20,7 +21,8 @@ const App = () => {
   return (
     <main>
       <Router>
-        <ProjectsList path="/" projects={projects} />
+        <ProjectList path="/" projects={projects} />
+        <ProjectDetails path="/projects/:id" />
       </Router>
     </main>
   );
