@@ -26,13 +26,23 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+> Express was new to me at the beginning of the week. I learned that it is small and modular and therefore very flexible. It extends the `http` module and makes it easy to build apps and services with a simple and clean API. We can use middleware to further extend the functionality of our apps.
+
 - [ ] Describe Middleware?
+
+> Express middleware are functions that intercept requests and perform things like data validation, logging, or authentication before sending the request on to the next piece of middleware or to the destination request handler (also actually middleware).
 
 - [ ] Describe a Resource?
 
+> A resource is a collection of objects or documents in data store. When building REST APIs, we usually have one URL for each resource and perform operations based on the HTTP verb used for the incoming request.
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+> In a successful request, an API will respond with a status code in the 200s and possibly some data related to the request.
+
 - [ ] How can we partition our application into sub-applications?
+
+> We can use Express routers to separate concerns within our application and make our code more modular and easier to maintain. 
 
 ## Project Setup
 
