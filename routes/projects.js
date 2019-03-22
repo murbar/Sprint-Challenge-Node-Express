@@ -9,6 +9,10 @@ const router = express.Router();
 // description  string	  required
 // completed	  boolean	  not required
 
+const isValidProject = project => {
+  return project.name && project.description;
+};
+
 router.get('/', async (req, res) => {
   try {
     const allProjects = await db.get();
