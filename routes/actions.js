@@ -10,6 +10,16 @@ const router = express.Router();
 // notes	      string	  no size limit, required
 // completed	  boolean	  not required
 
+router.get('/', async (req, res) => {
+  try {
+    const allActions = await db.get();
+    res.status(200).json(allActions);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Cannot get actions.' });
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     res.status(200).json();
