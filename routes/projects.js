@@ -49,10 +49,21 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    res.status(200).json();
+    const { id } = req.params;
+    const { body: projectData } = req;
+    if (!isValidProject(projectData)) {
+      res.status(400).json({ error: 'Project must have name and description.' });
+    } else {
+      const updatedProject = await db.update(id, projectData);
+      if (!updatedProject) {
+        res.status(404).json({ error: 'No project with that ID.' });
+      } else {
+        res.status(200).json(updatedProject);
+      }
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json();
+    res.status(500).json({ error: 'Could not update project.' });
   }
 });
 
