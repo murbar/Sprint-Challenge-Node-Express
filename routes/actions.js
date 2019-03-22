@@ -22,10 +22,16 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    res.status(200).json();
+    const { id } = req.params;
+    const actionById = await db.get(id);
+    if (!actionById) {
+      res.status(404).json({ error: 'No action with that ID.' });
+    } else {
+      res.status(200).json(actionById);
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json();
+    res.status(500).json({ error: 'Cannot get action.' });
   }
 });
 
