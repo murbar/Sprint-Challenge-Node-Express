@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../data/helpers/actionModel');
+const projectsDb = require('../data/helpers/projectModel');
 
 const router = express.Router();
 
@@ -9,6 +10,15 @@ const router = express.Router();
 // description	string	  up to 128 characters, required
 // notes	      string	  no size limit, required
 // completed	  boolean	  not required
+
+const isValidAction = async action => {
+  try {
+    const project = await projectsDb.get(action.project_id);
+    return action.notes && action.description && project;
+  } catch (error) {
+    return false;
+  }
+};
 
 router.get('/', async (req, res) => {
   try {
