@@ -92,10 +92,12 @@ router.get('/:id/actions', async (req, res) => {
   try {
     const { id } = req.params;
     const actions = await db.getProjectActions(id);
-    // can't check that the project exists because of the get by id issue above
-    // client will get an empty array if the project has no actions, or if that project doesn't exist
-    // maybe that's the intended behavior?
-    res.status(200).json(actions);
+    const projectById = await db.get(id);
+    if (!projectById) {
+      res.status(404).json({ error: 'No project with that ID.' });
+    } else {
+      res.status(200).json(actions);
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Could not get actions for that project.' });
